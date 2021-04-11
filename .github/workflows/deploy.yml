@@ -7,11 +7,18 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-   	  - uses: actions/checkout@v1
+   	  - uses: actions/checkout@v2
+      - name: install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.18.3'
+      - name: install npm dependencies
+        run: npm install
+      - name: build task
+        run: npm run build
       - name: ssh deploy
-        uses: easingthemes/ssh-deploy@v2.1.4
+        uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
           REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
